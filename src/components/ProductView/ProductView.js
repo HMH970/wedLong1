@@ -2,12 +2,29 @@ import React from 'react';
 import ProductListItem from "../ProductListItem";
 import ProductDetails from "../ProductDetails";
 import './ProductView.css'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function ProductView({ products }) {
-    const [sideOpen, setSideOpen] = useState(true);
-    const [selectedProduct, setselectedProduct] = useState('')
-    
+    const [sideOpen, setSideOpen] = useState( localStorage.getItem("sideOpen")||true);
+    const [selectedProduct, setselectedProduct] = useState(localStorage.getItem("selectedProduct")||'')
+
+    useEffect(() => {
+        localStorage.setItem('selectedProduct', selectedProduct)
+        setSideOpen(true);
+        console.log("triggered1")
+    }, [selectedProduct]);
+
+    useEffect(() => {
+        localStorage.setItem('sideOpen', sideOpen)
+        setselectedProduct("");
+            console.log("triggered")
+    }, [sideOpen]);
+
+    // useEffect(() => {
+    //     setselectedProduct("");
+    //         console.log("triggered")
+    // }, [sideOpen]);
+
     return (
         <div className="product-view">
             <div className="product-main-area">
@@ -24,7 +41,7 @@ function ProductView({ products }) {
                                 return
                             }}
                             isSelected={highlight}
-                            
+
 
                         />
                     })}
